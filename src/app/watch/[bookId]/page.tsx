@@ -1,18 +1,28 @@
+"use client";
+
 import { useMemo, useState, useEffect, useRef } from "react";
-import { useParams, Link, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { useDramaDetail, useEpisodes } from "@/hooks/useDramaDetail";
 import { ChevronLeft, ChevronRight, Play, Loader2, Settings } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const EPISODES_PER_PAGE = 30;
 
-export default function Watch() {
-  const { bookId } = useParams<{ bookId: string }>();
-  const [searchParams, setSearchParams] = useSearchParams();
+export default function WatchPage() {
+  const params = useParams<{ bookId: string }>();
+  const bookId = params.bookId;
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [currentEpisode, setCurrentEpisode] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [quality, setQuality] = useState(720);
-  const [showQualityMenu, setShowQualityMenu] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const { data: detailData, isLoading: detailLoading } = useDramaDetail(bookId || "");
@@ -30,7 +40,7 @@ export default function Watch() {
   // Update URL when episode changes
   const handleEpisodeChange = (index: number) => {
     setCurrentEpisode(index);
-    setSearchParams({ ep: index.toString() });
+    router.push(`/watch/${bookId}?ep=${index}`);
   };
 
   // All useMemo hooks must be called BEFORE any early returns
@@ -131,7 +141,7 @@ export default function Watch() {
       <div className="min-h-screen pt-24 px-4">
         <div className="max-w-7xl mx-auto text-center py-20">
           <h2 className="text-2xl font-bold text-foreground mb-4">Drama tidak ditemukan</h2>
-          <Link to="/" className="text-primary hover:underline">
+          <Link href="/" className="text-primary hover:underline">
             Kembali ke beranda
           </Link>
         </div>
@@ -146,7 +156,7 @@ export default function Watch() {
       <div className="max-w-7xl mx-auto px-4">
         {/* Back Button */}
         <Link
-          to={`/detail/${bookId}`}
+          href={`/detail/${bookId}`}
           className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-4"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -176,30 +186,27 @@ export default function Watch() {
 
               {/* Quality Selector */}
               <div className="absolute top-4 right-4 z-20">
-                <button
-                  onClick={() => setShowQualityMenu(!showQualityMenu)}
-                  className="p-2 rounded-lg bg-black/60 backdrop-blur-sm hover:bg-black/80 transition-colors"
-                >
-                  <Settings className="w-5 h-5" />
-                </button>
-                {showQualityMenu && (
-                  <div className="absolute top-12 right-0 z-50 rounded-lg py-2 min-w-[112px] shadow-xl bg-card border border-border">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="p-2 rounded-lg bg-black/60 backdrop-blur-sm hover:bg-black/80 transition-colors">
+                      <Settings className="w-5 h-5" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent 
+                    align="end"
+                    className="max-h-[280px] overflow-y-auto"
+                  >
                     {availableQualities.map((q) => (
-                      <button
+                      <DropdownMenuItem
                         key={q}
-                        onClick={() => {
-                          setQuality(q);
-                          setShowQualityMenu(false);
-                        }}
-                        className={`w-full px-4 py-2 text-left text-sm hover:bg-muted/50 transition-colors ${
-                          quality === q ? "text-primary font-semibold" : ""
-                        }`}
+                        onClick={() => setQuality(q)}
+                        className={quality === q ? "text-primary font-semibold" : ""}
                       >
                         {q}p
-                      </button>
+                      </DropdownMenuItem>
                     ))}
-                  </div>
-                )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
 
@@ -304,22 +311,6 @@ export default function Watch() {
               ))}
             </div>
           </div>
-        </div>
-      </div>
-    </main>
-  );
-}
-
-function WatchSkeleton() {
-  return (
-    <main className="min-h-screen pt-24 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6">
-          <div className="space-y-4">
-            <Skeleton className="aspect-video w-full rounded-2xl" />
-            <Skeleton className="h-20 w-full rounded-xl" />
-          </div>
-          <Skeleton className="h-[500px] rounded-xl" />
         </div>
       </div>
     </main>
