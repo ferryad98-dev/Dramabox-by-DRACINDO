@@ -44,18 +44,25 @@ Buka [http://localhost:3000](http://localhost:3000) di browser.
 | `npm run start` | Jalankan production server |
 | `npm run lint` | Jalankan ESLint |
 
-🙏 Credit to Original Project
-Repository ini adalah fork/modifikasi dari Slavecode/dramabox
+---
 
-Terima kasih kepada Slavecode atas project dasar yang inspiratif!
+## 🙏 Credit to Original Project
 
-Perubahan yang Dilakukan
-API Berbeda: Menggunakan API yang support multi-bahasa
-11 Bahasa: Dukungan penuh multi-bahasa dengan routing dinamis
-PWA Ready: Bisa di-install ke HP, offline support
-Mobile UX: Navigasi bawah, pull-to-refresh, interface touch-friendly
-Original Repository
-🔗 Slavecode/dramabox - Silakan star repo original juga!
+**Repository ini adalah fork/modifikasi dari [Slavecode/dramabox](https://github.com/Slavecode/dramabox)**
+
+Terima kasih kepada **[Slavecode](https://github.com/Slavecode)** atas project dasar yang inspiratif!
+
+### Perubahan yang Dilakukan
+
+- **API Berbeda**: Menggunakan API yang support multi-bahasa
+- **11 Bahasa**: Dukungan penuh multi-bahasa dengan routing dinamis
+- **PWA Ready**: Bisa di-install ke HP, offline support
+- **Mobile UX**: Navigasi bawah, pull-to-refresh, interface touch-friendly
+
+### Original Repository
+- **[🔗 Slavecode/dramabox](https://github.com/Slavecode/dramabox)** - Silakan star repo original juga!
+
+---
 
 ## 📁 Struktur Project
 
