@@ -2,7 +2,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppI
 from telegram.ext import Application, CommandHandler, CallbackContext
 
 # Token bot
-API_TOKEN = "8333327025:AAHoureGZR_7XbEWDVp7u92o24XayQuCZh0"
+API_TOKEN = "8333327025:AAH34ciAN6Ywbb4aAEv1gH3tLF0EXDLF6xM"
 
 # Fungsi untuk memulai bot
 async def start(update: Update, context: CallbackContext):
