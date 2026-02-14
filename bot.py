@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
 
-TOKEN = 8333327025:AAHoureGZR_7XbEWDVp7u92o24XayQuCZh0
+TOKEN = '8333327025:AAHoureGZR_7XbEWDVp7u92o24XayQuCZh0'
 
 def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('Halo, saya bot Telegram!')
