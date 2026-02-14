@@ -1,23 +1,28 @@
-from telegram import Update
-from telegram.ext import Updater, CommandHandler, CallbackContext
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
+from telegram.ext import Application, CommandHandler, CallbackContext
 
-TOKEN = '8333327025:AAHoureGZR_7XbEWDVp7u92o24XayQuCZh0'
+# Token bot
+API_TOKEN = "8333327025:AAHoureGZR_7XbEWDVp7u92o24XayQuCZh0"
 
-def start(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text('Halo, saya bot Telegram!')
+# Fungsi untuk memulai bot
+async def start(update: Update, context: CallbackContext):
+    # Membuat inline keyboard dengan tombol menuju mini app dan website
+    keyboard = [
+        [InlineKeyboardButton("Buka Mini App", web_app=WebAppInfo(url="https://dramabox-by-dracindo.vercel.app/"))],
+        [InlineKeyboardButton("Buka Website", url="https://dracindo.site/")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.message.reply_text('Selamat datang! Klik tombol di bawah untuk mengakses Mini App dan Website Kami:', reply_markup=reply_markup)
 
-def help(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text('Perintah yang tersedia:\n/start - Memulai bot\n/help - Menampilkan daftar perintah')
-
+# Setup bot dengan application
 def main():
-    updater = Updater(TOKEN)
-    dispatcher = updater.dispatcher
-
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("help", help))
-
-    updater.start_polling()
-    updater.idle()
+    application = Application.builder().token(API_TOKEN).build()
+    
+    # Menambahkan handler untuk /start
+    application.add_handler(CommandHandler("start", start))
+    
+    # Menjalankan bot
+    application.run_polling()
 
 if __name__ == '__main__':
     main()
